@@ -1,5 +1,5 @@
 PKG_NAME := syndication
-URL = https://download.kde.org/stable/applications/18.08.0/src/syndication-18.08.0.tar.xz
+URL = https://download.kde.org/stable/frameworks/5.50/syndication-5.50.0.tar.xz
 ARCHIVES = 
 
 include ../common/Makefile.common
