@@ -5,16 +5,17 @@
 # Source0 file verified with key 0x58D0EE648A48B3BB (faure@kde.org)
 #
 Name     : syndication
-Version  : 5.50.0
-Release  : 2
-URL      : https://download.kde.org/stable/frameworks/5.50/syndication-5.50.0.tar.xz
-Source0  : https://download.kde.org/stable/frameworks/5.50/syndication-5.50.0.tar.xz
-Source99 : https://download.kde.org/stable/frameworks/5.50/syndication-5.50.0.tar.xz.sig
+Version  : 5.51.0
+Release  : 3
+URL      : https://download.kde.org/stable/frameworks/5.51/syndication-5.51.0.tar.xz
+Source0  : https://download.kde.org/stable/frameworks/5.51/syndication-5.51.0.tar.xz
+Source99 : https://download.kde.org/stable/frameworks/5.51/syndication-5.51.0.tar.xz.sig
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : BSD-2-Clause LGPL-2.1
-Requires: syndication-lib
-Requires: syndication-license
+Requires: syndication-data = %{version}-%{release}
+Requires: syndication-lib = %{version}-%{release}
+Requires: syndication-license = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-kde
 
@@ -23,11 +24,20 @@ This directory contains valid feeds that are known to cause problems with libsyn
 the regression tests as they shouldn't be executed in "make test" runs. As soon as they succeed, move them to the
 respective regression test folder.
 
+%package data
+Summary: data components for the syndication package.
+Group: Data
+
+%description data
+data components for the syndication package.
+
+
 %package dev
 Summary: dev components for the syndication package.
 Group: Development
-Requires: syndication-lib
-Provides: syndication-devel
+Requires: syndication-lib = %{version}-%{release}
+Requires: syndication-data = %{version}-%{release}
+Provides: syndication-devel = %{version}-%{release}
 
 %description dev
 dev components for the syndication package.
@@ -36,7 +46,8 @@ dev components for the syndication package.
 %package lib
 Summary: lib components for the syndication package.
 Group: Libraries
-Requires: syndication-license
+Requires: syndication-data = %{version}-%{release}
+Requires: syndication-license = %{version}-%{release}
 
 %description lib
 lib components for the syndication package.
@@ -51,32 +62,36 @@ license components for the syndication package.
 
 
 %prep
-%setup -q -n syndication-5.50.0
+%setup -q -n syndication-5.51.0
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1536438909
-mkdir clr-build
+export SOURCE_DATE_EPOCH=1539620601
+mkdir -p clr-build
 pushd clr-build
 %cmake ..
-make  %{?_smp_mflags}
+make  %{?_smp_mflags} VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1536438909
+export SOURCE_DATE_EPOCH=1539620601
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/syndication
-cp COPYING.BSD %{buildroot}/usr/share/doc/syndication/COPYING.BSD
-cp COPYING.LIB %{buildroot}/usr/share/doc/syndication/COPYING.LIB
+mkdir -p %{buildroot}/usr/share/package-licenses/syndication
+cp COPYING.BSD %{buildroot}/usr/share/package-licenses/syndication/COPYING.BSD
+cp COPYING.LIB %{buildroot}/usr/share/package-licenses/syndication/COPYING.LIB
 pushd clr-build
 %make_install
 popd
 
 %files
 %defattr(-,root,root,-)
+
+%files data
+%defattr(-,root,root,-)
+/usr/share/xdg/syndication.categories
 
 %files dev
 %defattr(-,root,root,-)
@@ -222,9 +237,9 @@ popd
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libKF5Syndication.so.5
-/usr/lib64/libKF5Syndication.so.5.50.0
+/usr/lib64/libKF5Syndication.so.5.51.0
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/syndication/COPYING.BSD
-/usr/share/doc/syndication/COPYING.LIB
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/syndication/COPYING.BSD
+/usr/share/package-licenses/syndication/COPYING.LIB
