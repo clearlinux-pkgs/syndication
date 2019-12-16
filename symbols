@@ -1,3 +1,4 @@
+libKF5Syndication.so.5:_ZN11Syndication10LoaderUtil9parseFeedERK10QByteArrayRK4QUrl
 libKF5Syndication.so.5:_ZN11Syndication10PersonImplC1ERK7QStringS3_S3_
 libKF5Syndication.so.5:_ZN11Syndication10PersonImplC1Ev
 libKF5Syndication.so.5:_ZN11Syndication10PersonImplC2ERK7QStringS3_S3_
